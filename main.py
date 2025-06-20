@@ -49,8 +49,12 @@ async def start(message: Message):
     await message.answer(text, reply_markup=keyboard)
 
 @dp.message(Command("weather"))
-async def weather(message: Message):
-    city = "Tashkent"
+async def weather_info(message: Message):
+    await message.answer("Shahar nomini yozing:")
+    dp.message.register(handle_weather_city)
+
+async def handle_weather_city(message: Message):
+    city = message.text
     key = os.getenv("OPENWEATHERMAP_API_KEY")
     url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}&units=metric"
     async with aiohttp.ClientSession() as session:
